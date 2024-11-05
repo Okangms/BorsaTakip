@@ -10,6 +10,8 @@ namespace Service
     public class StockService : IStockService
     {
         private readonly HttpClient _httpClient;
+        private const string ApiKey = "9fbfcde5af083b237eda25ea30a25d81"; // Your API key
+
         public StockService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -17,11 +19,13 @@ namespace Service
 
         public async Task<string> GetStockBySymbolAsync(string symbols)
         {
-            var response = await _httpClient.GetAsync($"/tickers/{symbols}?access_key=7456bb95297ecd0d7db61216f0471dae");
+            // Construct the URL with the API key and symbols
+            var url = $"/v1/intraday?access_key={ApiKey}&symbols={symbols}";//ekleme yapacaksan api uzantısındaki intradayi istediğin uzantıuyla değiştir
+
+            var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
+
             return await response.Content.ReadAsStringAsync();
         }
-
-       
     }
 }
