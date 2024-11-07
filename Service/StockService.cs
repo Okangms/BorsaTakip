@@ -20,7 +20,7 @@ namespace Service
         public async Task<string> GetStockBySymbolAsync(string symbols)
         {
             // Construct the URL with the API key and symbols
-            var url = $"/v1/intraday?access_key={ApiKey}&symbols={symbols}";//ekleme yapacaksan api uzantısındaki intradayi istediğin uzantıuyla değiştir
+            var url = $"/v1/eod?access_key={ApiKey}&symbols={symbols}";//ekleme yapacaksan api uzantısındaki intradayi istediğin uzantıuyla değiştir
 
             var response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();

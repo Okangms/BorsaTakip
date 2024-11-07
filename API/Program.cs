@@ -12,6 +12,11 @@ builder.Services.AddHttpClient<IStockService, StockService>(client =>
     client.BaseAddress = new Uri("http://api.marketstack.com/v1");
 });
 
+builder.Services.AddHttpClient<ICryptoService, CryptoService>(client =>
+{
+    client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
