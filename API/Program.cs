@@ -12,9 +12,14 @@ builder.Services.AddHttpClient<IStockService, StockService>(client =>
     client.BaseAddress = new Uri("http://api.marketstack.com/v1");
 });
 
+//builder.Services.AddHttpClient<ICryptoService, CryptoService>(client =>
+//{
+//    client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
+//});
+
 builder.Services.AddHttpClient<ICryptoService, CryptoService>(client =>
 {
-    client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
+    client.BaseAddress = new Uri("https://rest.coinapi.io/"); // CoinAPI’nin temel URL’si
 });
 
 builder.Services.AddControllers();
