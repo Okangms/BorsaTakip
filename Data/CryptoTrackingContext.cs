@@ -16,7 +16,7 @@ namespace DataAccess
         {
         }
         public DbSet<Users> Users { get; set; }
-        public DbSet<CryptoAsset> CryptoAssets { get; set; }
+        public DbSet<Coin> CryptoAssets { get; set; }
         public DbSet<UserPortfolio> UserPortfolio { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

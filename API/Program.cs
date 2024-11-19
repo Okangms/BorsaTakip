@@ -1,10 +1,19 @@
 using Core;
+using DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Service;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
+
+builder.Services.AddDbContext<CryptoTrackingContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 
 
 //builder.Services.AddHttpClient<IStockService, StockService>(client =>

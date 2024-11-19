@@ -13,15 +13,16 @@ namespace DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<UserPortfolio>builder)
         {
-            builder.HasKey(up => up.Portfolio_id);
-            builder.Property(up => up.Portfolio_id).ValueGeneratedOnAdd();
+            builder.HasKey(up => up.PortfolioId);
+            builder.Property(up => up.PortfolioId).ValueGeneratedOnAdd();
 
             builder.Property(up=>up.Amount).IsRequired().HasColumnType("decimal(18,8)");
 
-            builder.HasOne(up => up.Users).WithMany(u => u.Portfolios).HasForeignKey(up => up.User_id);
-
-            builder.HasOne(up => up.CryptoAsset).WithMany(ca => ca.Portfolios).HasForeignKey(up => up.Crypto_id);
+            builder.HasOne(up => up.Users).WithMany(u => u.Portfolios).HasForeignKey(up => up.UserId);
+            
+            builder.HasOne(up => up.Coin).WithMany(up => up.Portfolio).HasForeignKey(up => up.Id);
         }
+        
 
     }
 }

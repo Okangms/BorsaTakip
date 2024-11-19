@@ -8,13 +8,14 @@ namespace DataAccess.Entities
 {
     public class UserPortfolio
     {
-        public int Portfolio_id { get; set; }
-        public int User_id { get; set; }
-        public int Crypto_id { get; set; }
+        public int PortfolioId { get; set; }
+        public int UserId { get; set; }
+        public int Id { get; set; }
         public int Amount { get; set; }
 
-        public Users Users { get; set; }
-        public CryptoAsset CryptoAsset { get; set; }
+        public virtual Users Users { get; set; }
+
+        public virtual Coin Coin { get; set; }
 
     }
 }
