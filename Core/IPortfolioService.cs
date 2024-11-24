@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities;
+﻿using Core.Entities;
+using DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,11 @@ namespace Core
 {
     public interface IPortfolioService
     {
-        Task<IEnumerable<UserPortfolio>> GetAllPortfoliosAsync();
-        Task<UserPortfolio> GetPortfolioByIdAsync(int portfolioId);
-        Task<UserPortfolio> AddPortfolioAsync(UserPortfolio portfolio);
-        Task<bool> UpdatePortfolioAsync(UserPortfolio portfolio);
-        Task<bool> DeletePortfolioAsync(int portfolioId);
+        Task<IEnumerable<Portfolio>> GetAllPortfoliosAsync(int UserId);
+        Task<Portfolio> GetPortfolioByIdAsync(int portfolioId,int UserId);
+        Task<bool> CreatePortfolioByIdAsync(int UserId, string PortfolioName);
+        Task<bool> AddToPortfolioAsync(int portfolioId,int coinId,int amount);
+        Task<bool> DeleteFromPortfolioAsync(int portfolioId,int UserId, int coinId);
+        Task<bool> DeletePortfolioAsync(int portfolioId,int UserId);  
     }
 }

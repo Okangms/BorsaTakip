@@ -16,18 +16,18 @@ namespace DataAccess.Configurations
             builder.HasKey(ca => ca.Id);
             builder.Property(ca => ca.Id).ValueGeneratedOnAdd();
 
-            builder.Property(ca=>ca.Name).IsRequired().HasMaxLength(100);
-            builder.Property(ca=>ca.Symbol).HasMaxLength(50);
+            builder.Property(ca => ca.Name).IsRequired().HasMaxLength(100);
+            builder.Property(ca => ca.Symbol).HasMaxLength(50);
 
             builder.Property(ca => ca.CurrentPrice).IsRequired().HasColumnType("decimal(18,8)");
 
-            builder.Property(ca=>ca.CurrentPrice).HasColumnType("decimal(18,8)");
+            builder.Property(ca => ca.CurrentPrice).HasColumnType("decimal(18,8)");
 
             builder.Property(ca => ca.MarketCap).HasColumnType("decimal(18,8)");
 
             builder.Property(ca => ca.TotalVolume).HasColumnType("decimal(18,8)");
-
-            builder.HasMany(ca => ca.Portfolio).WithOne(p => p.Coin).HasForeignKey(p => p.Id);
         }
+
+           
     }
 }

@@ -21,5 +21,6 @@ public class Coin
     [JsonProperty("total_volume")]
     public decimal TotalVolume { get; set; }
 
-    public ICollection<UserPortfolio> Portfolio { get; set; }
+    public ICollection<UserPortfolio> UserPortfolios { get; set; }
+
 }

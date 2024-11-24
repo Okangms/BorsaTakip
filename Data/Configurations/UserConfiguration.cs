@@ -26,7 +26,9 @@ namespace DataAccess.Configurations
             builder.Property(u=>u.Email).IsRequired().HasMaxLength(100);
             builder.HasIndex(u => u.Email).IsUnique();
 
-            builder.HasMany(u=>u.Portfolios).WithOne(p=>p.Users).HasForeignKey(p=>p.UserId);
+            builder.HasMany(u=>u.Portfolio)
+                .WithOne(p=>p.User)
+                .HasForeignKey(p=>p.UserId);
         }
     }
 }

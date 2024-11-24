@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,11 @@ namespace DataAccess.Entities
 {
     public class UserPortfolio
     {
+        public int UpId { get; set; }
         public int PortfolioId { get; set; }
-        public int UserId { get; set; }
         public int Id { get; set; }
         public int Amount { get; set; }
-
-        public virtual Users Users { get; set; }
-
         public virtual Coin Coin { get; set; }
-
+        public virtual Portfolio Portfolio { get; set; }
     }
 }

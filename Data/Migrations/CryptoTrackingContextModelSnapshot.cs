@@ -53,7 +53,7 @@ namespace DataAccess.Migrations
                     b.ToTable("CryptoAssets");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.UserPortfolio", b =>
+            modelBuilder.Entity("Core.Entities.Portfolio", b =>
                 {
                     b.Property<int>("PortfolioId")
                         .ValueGeneratedOnAdd()
@@ -61,20 +61,43 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PortfolioId"));
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,8)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<string>("PortfolioName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("PortfolioId");
 
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Portfolios");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.UserPortfolio", b =>
+                {
+                    b.Property<int>("UpId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UpId"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,8)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PortfolioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UpId");
+
                     b.HasIndex("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PortfolioId");
 
                     b.ToTable("UserPortfolio");
                 });
@@ -108,33 +131,49 @@ namespace DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Core.Entities.Portfolio", b =>
+                {
+                    b.HasOne("DataAccess.Entities.Users", "User")
+                        .WithMany("Portfolio")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.UserPortfolio", b =>
                 {
                     b.HasOne("Coin", "Coin")
-                        .WithMany("Portfolio")
+                        .WithMany("UserPortfolios")
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.Users", "Users")
-                        .WithMany("Portfolios")
-                        .HasForeignKey("UserId")
+                    b.HasOne("Core.Entities.Portfolio", "Portfolio")
+                        .WithMany("UserPortfolios")
+                        .HasForeignKey("PortfolioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Coin");
 
-                    b.Navigation("Users");
+                    b.Navigation("Portfolio");
                 });
 
             modelBuilder.Entity("Coin", b =>
                 {
-                    b.Navigation("Portfolio");
+                    b.Navigation("UserPortfolios");
+                });
+
+            modelBuilder.Entity("Core.Entities.Portfolio", b =>
+                {
+                    b.Navigation("UserPortfolios");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Users", b =>
                 {
-                    b.Navigation("Portfolios");
+                    b.Navigation("Portfolio");
                 });
 #pragma warning restore 612, 618
         }
