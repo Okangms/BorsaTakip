@@ -1,9 +1,7 @@
-﻿// API/Controllers/PortfolioController.cs
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service;
-using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -17,33 +15,58 @@ namespace API.Controllers
         {
             _portfolioService = portfolioService;
         }
-
+        
+        [AllowAnonymous]
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetPortfoliosByUser(int userId)
+        public async Task<IActionResult> GetUserPortfolios(int userId)
         {
+            // Kullanıcının id'sini doğrulamak için bir güvenlik katmanı ekleyin
             var portfolios = await _portfolioService.GetPortfoliosByUserIdAsync(userId);
             return Ok(portfolios);
+
         }
+
+        [HttpGet("total-value/{userId}")]
+        [AllowAnonymous] // İsterseniz kimlik doğrulama yapabilirsiniz
+        public async Task<IActionResult> GetPortfolioTotalValue(int userId)
+        {
+            try
+            {
+                var totalValue = await _portfolioService.CalculatePortfolioTotalValueAsync(userId);
+                return Ok(new { TotalValue = totalValue });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
 
         [HttpPost]
-        public async Task<IActionResult> CreatePortfolio([FromBody] Portfolio portfolio)
+        public async Task<IActionResult> AddCryptoToPortfolio([FromBody] PortfolioItem portfolioItem)
         {
-            await _portfolioService.AddPortfolioAsync(portfolio);
-            return CreatedAtAction(nameof(GetPortfoliosByUser), new { userId = portfolio.UserId }, portfolio);
+            var userId = int.Parse(User.FindFirst("id")?.Value);
+
+            // Kullanıcıya ait portföyü al veya oluştur
+            var portfolio = await _portfolioService.GetOrCreateUserPortfolioAsync(userId);
+
+            portfolioItem.PortfolioId = portfolio.Id;
+            await _portfolioService.AddCryptoToPortfolioAsync(portfolioItem);
+
+            return Ok("Crypto added to portfolio successfully.");
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdatePortfolio([FromBody] Portfolio portfolio)
+        [HttpGet("total-value")]
+        public async Task<IActionResult> GetPortfolioTotalValue()
         {
-            await _portfolioService.UpdatePortfolioAsync(portfolio);
-            return NoContent();
-        }
+            var userId = int.Parse(User.FindFirst("id")?.Value);
 
-        [HttpDelete("{portfolioId}")]
-        public async Task<IActionResult> DeletePortfolio(int portfolioId)
-        {
-            await _portfolioService.DeletePortfolioAsync(portfolioId);
-            return NoContent();
+            var totalValue = await _portfolioService.CalculatePortfolioTotalValueAsync(userId);
+            return Ok(totalValue);
         }
     }
 }

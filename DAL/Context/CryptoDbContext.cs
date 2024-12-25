@@ -13,6 +13,8 @@ namespace DAL.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Portfolio> Portfolios { get; set; }
         public DbSet<PortfolioItem> PortfolioItems { get; set; }
+        public DbSet<FavoriteCrypto> FavoriteCryptos { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

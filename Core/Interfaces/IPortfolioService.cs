@@ -7,10 +7,10 @@ namespace Core.Services
 {
     public interface IPortfolioService
     {
-        Task<Portfolio> GetPortfolioByIdAsync(int portfolioId);
         Task<IEnumerable<Portfolio>> GetPortfoliosByUserIdAsync(int userId);
-        Task AddPortfolioAsync(Portfolio portfolio);
-        Task UpdatePortfolioAsync(Portfolio portfolio);
-        Task DeletePortfolioAsync(int portfolioId);
+        Task AddCryptoToPortfolioAsync(PortfolioItem portfolioItem);
+        Task<decimal> CalculatePortfolioTotalValueAsync(int userId);
+        Task<Portfolio> GetOrCreateUserPortfolioAsync(int userId);
     }
+
 }
