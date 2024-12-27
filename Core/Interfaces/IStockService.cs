@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core
+namespace Core.Interfaces
 {
     public interface IStockService
     {
-    
+
 
         Task<string> GetStockBySymbolAsync(string symbol);
     }
